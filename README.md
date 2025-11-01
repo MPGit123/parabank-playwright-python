@@ -3,7 +3,7 @@
 This project contained automated UI test scripts for the **parabank** banking application using **playwright** and **python**.
 It follows the page object model(POM) structure for maintainability adn scalability.
 
-## Tech Stack
+## Tech Stack 
 
 | Tool       | Purpose                   |
 |------------|---------------------------|
