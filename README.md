@@ -12,7 +12,6 @@ It follows the page object model(POM) structure for maintainability adn scalabil
 | pytest     | Test runner               |
 | Allure     | Test reporting            |
 
-
 ## Project structure
 
 parabank-playwright-python/
