@@ -1,4 +1,7 @@
 pipeline {
+    environment {
+        PLAYWRIGHT_BROWSERS_PATH = "C:\\Users\\Mayank.Patel\\.jenkins\\playwright_browsers"
+    }
     agent any
 
     environment {
@@ -22,7 +25,7 @@ pipeline {
                 pip install --upgrade pip
                 pip install -r requirements.txt
                 pip install playwright pytest pytest-playwright allure-pytest
-                playwright install
+                playwright install chromium
                 """
             }
         }
@@ -33,12 +36,6 @@ pipeline {
                 call %VENV%\\Scripts\\activate
                 pytest --junitxml=results.xml
                 """
-            }
-        }
-
-        stage('Allure Report') {
-            steps {
-                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
         }
     }
