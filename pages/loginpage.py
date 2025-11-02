@@ -1,10 +1,11 @@
-# from playwright.sync_api import Page
-from pages.basepage import BasePage
+from pages import BasePage
+from pages.homepage import HomePage
 
 class LogInPage(BasePage):
     def __init__(self, page):
         super().__init__(page)
         self.page = page
+        self.homePage = HomePage(page)
         self.url = "parabank/index.htm"
         self.usernameBox = page.locator("//input[@name='username']")
         self.passwordBox = page.locator("//input[@name='password']")
@@ -18,6 +19,7 @@ class LogInPage(BasePage):
         self.safe_fill(self.usernameBox, username)
         self.safe_fill(self.passwordBox, password)
         self.safe_click(self.loginButton)
+        return self.homePage
 
     def error_message_text(self):
         return self.errorMessage.inner_text()
