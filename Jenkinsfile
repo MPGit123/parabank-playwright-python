@@ -5,6 +5,7 @@ pipeline {
         // Path where Python installs venv (workspace folder)
         VENV = "venv"
         PLAYWRIGHT_BROWSERS_PATH = "C:\\Users\\Mayank.Patel\\.jenkins\\playwright_browsers"
+        PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD = "1"
     }
 
     stages {
