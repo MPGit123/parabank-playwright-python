@@ -1,12 +1,10 @@
 pipeline {
-    environment {
-        PLAYWRIGHT_BROWSERS_PATH = "C:\\Users\\Mayank.Patel\\.jenkins\\playwright_browsers"
-    }
     agent any
 
     environment {
         // Path where Python installs venv (workspace folder)
         VENV = "venv"
+        PLAYWRIGHT_BROWSERS_PATH = "C:\\Users\\Mayank.Patel\\.jenkins\\playwright_browsers"
     }
 
     stages {
