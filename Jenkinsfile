@@ -1,50 +1,52 @@
-pipeline{
-    agent {
-        docker {
-            image 'mcr.microsoft.com/playwright/python:latest'
-        }
-    }
+pipeline {
+    agent any
 
     environment {
-        REPORT_DIR = "reports"
+        // Path where Python installs venv (workspace folder)
+        VENV = "venv"
     }
 
     stages {
-        stage ('Checkout') {
+
+        stage('Checkout Code') {
             steps {
                 checkout scm
             }
         }
 
-        stage ('Install dependencies') {
+        stage('Setup Python & Install Dependencies') {
             steps {
-                sh 'mkdir -p ${REPORT_DIR}'
-
-                script {
-                    if (fileExists(requirements.txt)) {
-                        sh 'pip install -r requirements.txt'
-                    }
-                    else {
-                        sh 'pip install pytest pytest-playwright playwright'
-                    }
-                }
-
-                sh 'playwright install --with-deps || playwright install'
+                bat """
+                python -m venv %VENV%
+                call %VENV%\\Scripts\\activate
+                pip install --upgrade pip
+                pip install -r requirements.txt
+                pip install playwright pytest pytest-playwright allure-pytest
+                playwright install
+                """
             }
         }
 
-        stage ('Run Test') {
+        stage('Run Tests') {
             steps {
-                sh '''
-                    pytest --alluredir=${REPORT_DIR}/allure-results --junitxml=${REPORT_DIR}/results.xml
-                    '''
+                bat """
+                call %VENV%\\Scripts\\activate
+                pytest --junitxml=results.xml
+                """
             }
         }
 
-        stage('Publish Allure Report') {
+        stage('Allure Report') {
             steps {
-                allure([results: [[path: "${REPORT_DIR}/allure-results"]], reportBuildPolicy: 'ALWAYS'])
+                allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
             }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: 'results.xml', fingerprint: true
+            junit 'results.xml'
         }
     }
 }
