@@ -1,6 +1,7 @@
 from playwright.sync_api import sync_playwright, Playwright, Browser, BrowserContext
 import pytest
 from config.settings import settings
+from utils import load_json_data
 
 @pytest.fixture(scope="session")
 def playwright():
@@ -24,3 +25,7 @@ def page(context:BrowserContext):
     page = context.new_page()
     yield page
     page.close()
+
+@pytest.fixture()
+def test_data():
+    return load_json_data("data.json")

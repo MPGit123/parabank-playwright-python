@@ -11,9 +11,9 @@ class BasePage:
         self.page.wait_for_load_state("networkidle")
 
     def safe_fill(self, locator, text):
-        self.page.wait_for_selector(locator)
+        locator.wait_for(state="visible")
         locator.fill(text)
 
     def safe_click(self, locator):
-        self.page.wait_for_selector(locator)
+        locator.wait_for(state="visible")
         locator.click()

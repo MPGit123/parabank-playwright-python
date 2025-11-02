@@ -1,0 +1,6 @@
+{
+    "valid_username":"macp",
+    "valid_password":"Macp@1234",
+    "invalid_username":"macp1234",
+    "invalid_password":"macp45678"
+}
