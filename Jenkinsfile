@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        choice (name: 'TEST_SUIT', choices: ['smoke', 'regression', 'all'], description: 'Which test to run?')
+    }
+
     environment {
         // Path where Python installs venv (workspace folder)
         VENV = "venv"
@@ -33,6 +37,9 @@ pipeline {
             steps {
                 bat """
                 call %VENV%\\Scripts\\activate
+                if "%TEST_SUIT%"=="smoke" (pytest -m smoke) ^
+                else if "%TEST_SUIT%"=="regression" (pytest -m regression) ^
+                else (pytest)
                 pytest --junitxml=results.xml
                 """
             }
