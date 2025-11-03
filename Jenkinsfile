@@ -37,10 +37,9 @@ pipeline {
             steps {
                 bat """
                 call %VENV%\\Scripts\\activate
-                if "%TEST_SUIT%"=="smoke" (pytest -m smoke) ^
-                else if "%TEST_SUIT%"=="regression" (pytest -m regression) ^
-                else (pytest)
-                pytest --junitxml=results.xml
+                if "%TEST_SUIT%"=="smoke" (pytest -m smoke --junitxml=results.xml) ^
+                else if "%TEST_SUIT%"=="regression" (pytest -m regression --junitxml=results.xml) ^
+                else (pytest --junitxml=results.xml)
                 """
             }
         }
